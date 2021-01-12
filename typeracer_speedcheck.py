@@ -11,7 +11,7 @@ total = 0
 date = ''
 acc = 0
 while string != '':
-    x = re.search(r"(\d*)( \w{3}\s(.+)%.*?)(\w+\. \d\d, \d\d\d\d)", manyStrings)
+    x = re.search(r"(\d*)( \w{3}\s(.+)%.*?)(\w+\. \d\d, \d\d\d\d|today)", manyStrings)
     if x:
         if date == '':
             date = x.group(4)
