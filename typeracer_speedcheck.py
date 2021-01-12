@@ -1,4 +1,8 @@
 import re
+
+def toFixed(numObj, digits=0):
+    return f"{numObj:.{digits}f}"
+
 file = open("file", encoding='utf-8')
 string = file.readline()
 manyStrings = string
@@ -14,8 +18,8 @@ while string != '':
         elif date != x.group(4):
             print("\nDate: " + date + '\n')
             print("Total tries = " + str(tries))
-            print("Average accuracy = " + str(acc/tries))
-            print("Average typing speed = " + str(total/tries)+ "\n------------------------------------------")
+            print("Average accuracy = " + str(toFixed(acc/tries, 2)))
+            print("Average typing speed = " + str(toFixed(total/tries, 2))+ "\n---------------------------------------")
             tries = 0
             total = 0
             acc = 0
@@ -29,8 +33,7 @@ while string != '':
     manyStrings += string
 
 # не хочу париться насчет красивого кода(
-print("Date: " + date + '\n')
+print("\nDate: " + date + '\n')
 print("Total tries = " + str(tries))
-print("Average accuracy = " + str(acc/tries))
-print("Average typing speed = " + str(total/tries))
-print("------------------------------------------")
+print("Average accuracy = " + str(toFixed(acc / tries, 2)))
+print("Average typing speed = " + str(toFixed(total / tries, 2)) + "\n---------------------------------------")
