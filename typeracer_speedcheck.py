@@ -11,4 +11,6 @@ while string != "":
 
     string = file.readline()
 
-print(total/tries)
+print(total/tries) 
+
+\\isn't optimised for different days and it doesn't cout normal output (ex, date 21/11/2020 - Typing speed: this)
