@@ -1,17 +1,15 @@
-import random
-file = open("try_one_10", encoding='utf-8')
+import re
+file = open("file", encoding='utf-8')
 string = file.readline()
 a = []
-
+t = 0
+suma = 0
 while string != "":
-    a.append(string.replace("\n",""))
+    a.append(re.match(r"^\d*", string).group(0))
+    file.readline()
+    file.readline()
     string = file.readline()
-
-for i in range(len(a)):
-    ran = random.randint(0, len(a) - 1)
-    t = a[i]
-    a[i] = a[ran]
-    a[ran] = t
-
-for i in range(len(a)):
-    print(a[i])
+    t += 1
+for i in a:
+    suma += int(i)
+print(suma/t)
