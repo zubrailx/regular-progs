@@ -38,7 +38,7 @@ def all_stat(name, univ):
     req_json = collect_data(name, univ, n=n)
     if req_json is not None:
         for elem in req_json:
-            acc = "%.2f" % elem['ac']
+            acc = "%.0f" % (elem['ac']*100) + "%"
             wpm = "%.2f" % elem['wpm']
             elem_time = time.strftime('%Y-%m-%d %H:%M:%S', seconds_to_localtime(elem['t']))
             print(f"[{elem_time}]: accuracy - {acc},\tspeed - {wpm} wpm.")
@@ -56,7 +56,7 @@ def stat_by_days(name, univ):
                 'wpm': elem['wpm']
             })
     for key, values in day_dict.items():
-        acc = "%.2f" % (sum([v['ac'] for v in values])/len(values))
+        acc = "%.2f" % (sum([v['ac'] for v in values])/len(values)*100) + "%"
         wpm = "%.2f" % (sum([v['wpm'] for v in values])/len(values))
         print(f"[{key}]: accuracy - {acc}, \tspeed - {wpm} wpm.")
 
@@ -71,7 +71,7 @@ def stat_by_current_day(name, univ):
                                endDate=int((dat + datetime.timedelta(days=1)).timestamp()))
     if req_json is not None:
         for elem in req_json:
-            acc = "%.2f" % elem['ac']
+            acc = "%.0f" % (elem['ac']*100) + "%"
             wpm = "%.2f" % elem['wpm']
             elem_time = time.strftime('%H:%M:%S', seconds_to_localtime(elem['t']))
             print(f"[{elem_time}]: accuracy - {acc}, \tspeed - {wpm} wpm.")
