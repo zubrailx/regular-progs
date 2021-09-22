@@ -1,19 +1,38 @@
-# import time
 import typeracer_api as tr
 
-username = input("Enter the username: ")
-universe = input("Enter the universe (or nothing): ")
-try:
-    n = int(input("Enter the amount of plays: "))
-except ValueError:
-    n = 0
 
-print("\n" + "-"*60)
+def main():
+    request_type_dict = {
+        1: tr.all_stat,
+        2: tr.stat_by_current_day,
+        3: tr.stat_by_days
+    }
 
-request_json = tr.collect_data(username, universe, n)
-if request_json is not None:
+    # main info
+    username = input("Enter the username: ")
+    universe = input("Enter the universe (or nothing): ")
 
-    for elem in request_json:
+    # type of request
+    print("Enter the type of request:\n"
+          "1) Get all statistics\n"
+          "2) Get statistics by current day\n"
+          "3) Get statistics by days")
 
-        elem_time = tr.seconds_to_normal(elem['t'])
-        print(f"[{elem_time}]: accuracy - {elem['ac']}, speed - {elem['wpm']} wpm.")
+    t = None
+    while t is None:
+        try:
+            t = int(input("Enter the number: "))
+            if t in request_type_dict.keys():
+                request_type_dict[t](username, universe)
+            else:
+                print("request type value is invalid, try again")
+                t = None
+        except ValueError:
+            print("request type value is invalid, try again")
+
+    input("\nPress Enter to continue...")
+
+
+# this file is a script
+if __name__ == '__main__':
+    main()
