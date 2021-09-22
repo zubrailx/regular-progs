@@ -1,5 +1,5 @@
 # import time
-from typeracer import typeracer_api as tr
+import typeracer_api as tr
 
 username = input("Enter the username: ")
 universe = input("Enter the universe (or nothing): ")
