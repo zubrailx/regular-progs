@@ -17,14 +17,13 @@ def collect_data(name, univ, **ps):
 
     req = requests.get("https://data.typeracer.com/games", params=params)
 
-    # print(req.url)
     if req.status_code == 400 or req.status_code == 404:
         print("Not enough info.")
     else:
         return req.json()
 
 
-# special variants of getting statistics
+# first variant
 def all_stat(name, univ):
     n = None
     while n is None:
@@ -44,9 +43,26 @@ def all_stat(name, univ):
             print(f"[{elem_time}]: accuracy - {acc},\tspeed - {wpm} wpm.")
 
 
+# second variant
+def stat_by_current_day(name, univ):
+    dat = None
+    while dat is None:
+        dat = datetime.datetime(*[int(x) for x in input("Enter year, month, day in one line without separators"
+                                                        "\nEnter: ").split()])
+    print_line(60)
+    req_json = collect_data(name, univ, startDate=int(dat.timestamp()),
+                            endDate=int((dat + datetime.timedelta(days=1)).timestamp()))
+    if req_json is not None:
+        for elem in req_json:
+            acc = "%.0f" % (elem['ac']*100) + "%"
+            wpm = "%.2f" % elem['wpm']
+            elem_time = time.strftime('%H:%M:%S', seconds_to_localtime(elem['t']))
+            print(f"[{elem_time}]: accuracy - {acc}, \tspeed - {wpm} wpm.")
+
+
+# third variant
 def stat_by_days(name, univ):
     day_dict = dict()
-
     print_line(60)
     req_json = collect_data(name, univ,  startDate=0, endDate=int(time.time()))
     if req_json is not None:
@@ -58,23 +74,8 @@ def stat_by_days(name, univ):
     for key, values in day_dict.items():
         acc = "%.2f" % (sum([v['ac'] for v in values])/len(values)*100) + "%"
         wpm = "%.2f" % (sum([v['wpm'] for v in values])/len(values))
-        print(f"[{key}]: accuracy - {acc}, \tspeed - {wpm} wpm.")
-
-
-def stat_by_current_day(name, univ):
-    dat = None
-    while dat is None:
-        dat = datetime.datetime(*[int(x) for x in input("Enter year, month, day in one line without separators"
-                                                        "\nEnter: ").split()])
-    print_line(60)
-    req_json = collect_data(name, univ, startDate=int(dat.timestamp()),
-                               endDate=int((dat + datetime.timedelta(days=1)).timestamp()))
-    if req_json is not None:
-        for elem in req_json:
-            acc = "%.0f" % (elem['ac']*100) + "%"
-            wpm = "%.2f" % elem['wpm']
-            elem_time = time.strftime('%H:%M:%S', seconds_to_localtime(elem['t']))
-            print(f"[{elem_time}]: accuracy - {acc}, \tspeed - {wpm} wpm.")
+        amount = len(values)
+        print(f"[{key}]: accuracy - {acc}, \tspeed - {wpm} wpm, \tplays - {amount}.")
 
 
 # additional
