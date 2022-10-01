@@ -1,4 +1,4 @@
-# Python.regular_progs
+regular_progs
 
 ## Statistics for typeracer
 
